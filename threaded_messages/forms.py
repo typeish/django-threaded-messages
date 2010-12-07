@@ -53,7 +53,8 @@ class ComposeForm(forms.Form):
         thread.save()
 
         for recipient in recipients:
-            Participant.objects.create(thread=thread, user=recipient)
+            if recipient != self.sender:
+                Participant.objects.create(thread=thread, user=recipient)
         
         (sender_part, created) = Participant.objects.get_or_create(thread=thread, sender_profile=sender_profile, user=self.sender)
         sender_part.replied_at = sender_part.read_at = datetime.datetime.now()
