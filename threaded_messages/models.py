@@ -128,5 +128,6 @@ def inbox_count_for(user):
     return Participant.objects.filter(user=user, read_at__isnull=True, deleted_at__isnull=True).count()
 
 
-from django_messages.utils import new_message_email
-signals.post_save.connect(new_message_email, sender=Message)
+import signals
+from utils import message_email_notification
+signals.threaded_message_sent.connect(message_email_notification)

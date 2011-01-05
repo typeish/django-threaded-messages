@@ -44,7 +44,9 @@ class ComposeForm(forms.Form):
         (sender_part, created) = Participant.objects.get_or_create(thread=thread, user=self.sender)
         sender_part.replied_at = sender_part.read_at = datetime.datetime.now()
         sender_part.save()
-        
+
+        signals.threaded_message_sent.send(sender=self, message=new_message)
+
         return thread
 
 class ReplyForm(forms.Form):
@@ -71,5 +73,7 @@ class ReplyForm(forms.Form):
         sender_part = Participant.objects.get(thread=thread, user=sender)
         sender_part.replied_at = sender_part.read_at = datetime.datetime.now()
         sender_part.save()
-        
+
+        signals.threaded_message_sent.send(sender=self, message=new_message)
+
         return thread

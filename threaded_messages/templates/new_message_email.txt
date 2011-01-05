@@ -1,0 +1,11 @@
+{{ message.sender.username }} sent you a {% if message.parent_msg %}reply{% else %}message{% endif %} on {{ site_name }}:
+
+Participants: {% for p in message.thread.all.0.participants.all %}{{ p.user.username }}{% if not forloop.last %}, {% endif %}{% endfor %}
+Subject: {% if message.parent_msg %}RE {% endif %}{{ message.thread.all.0.subject }}
+ --
+{{ message.body }}
+ --
+Reply: {{ site_url }}{% url messages_detail message.thread.all.0.id %}
+Inbox: {{ site_url }}{% url messages_inbox %}
+
+Sent by {{ site_url }} at {% now "Y-m-d HH:MM" %}
