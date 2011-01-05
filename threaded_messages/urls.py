@@ -1,10 +1,7 @@
 from django.conf.urls.defaults import *
 from django.views.generic.simple import redirect_to
 
-from django_messages.views import *
-from django_messages.feeds import *
-
-feeds = {'message_feed': message_feed,}
+from threaded_messages.views import *
 
 urlpatterns = patterns('',
     url(r'^$', redirect_to, {'url': 'inbox/'}),
@@ -16,5 +13,4 @@ urlpatterns = patterns('',
     url(r'^delete/(?P<thread_id>[\d]+)/$', delete, name='messages_delete'),
     url(r'^undelete/(?P<thread_id>[\d]+)/$', undelete, name='messages_undelete'),
     url(r'^trash/$', trash, name='messages_trash'),
-    url(r'^feeds/(?P<url>.*)/$', 'django.contrib.syndication.views.feed', {'feed_dict': feeds}),
 )
